@@ -1,0 +1,26 @@
+{% extends 'qcasa/layout.njk' %}
+{% block qcbody %}
+<main class="qc-admin qc-admin-form-page">
+  {% include 'qcasa/admin/_nav.njk' %}
+  <a class="qc-back" href="/qcasa/admin/usuarios">← Volver a usuarios</a>
+
+  <div class="qc-admin-head">
+    <div>
+      <span class="qc-kicker">ADMINISTRACIÓN QCASA</span>
+      <h1>{{ 'Editar usuario' if user else 'Nuevo usuario' }}</h1>
+    </div>
+  </div>
+
+  <form class="qc-property-form" method="post"
+        action="{{ '/qcasa/admin/usuarios/' + user.id if user else '/qcasa/admin/usuarios' }}">
+    <label class="qc-wide">Nombre<input name="name" value="{{ user.name if user else '' }}" required></label>
+    <label>Email<input type="email" name="email" value="{{ user.email if user else '' }}" required></label>
+    <label>Teléfono<input name="phone" value="{{ user.phone if user else '' }}" required></label>
+    <label class="qc-wide">
+      {{ 'Nueva contraseña (opcional)' if user else 'Contraseña' }}
+      <input type="password" name="password" {% if not user %}required{% endif %}>
+    </label>
+    <div class="qc-wide"><button>{{ 'Guardar cambios' if user else 'Crear usuario' }}</button></div>
+  </form>
+</main>
+{% endblock %}

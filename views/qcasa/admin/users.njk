@@ -1,0 +1,15 @@
+{% extends 'qcasa/layout.njk' %}
+{% block qcbody %}
+<main class="qc-admin">
+  <div class="qc-admin-head">
+    <div><span class="qc-kicker">ADMINISTRACIÓN QCASA</span><h1>Usuarios</h1><p>Propietarios registrados en QCASA.</p></div>
+    {% include 'qcasa/admin/_nav.njk' %}
+  </div>
+  <div class="qc-admin-page-actions"><a class="qc-admin-secondary" href="/qcasa/admin">← Panel</a><a class="qc-admin-primary" href="/qcasa/admin/usuarios/nuevo">+ Nuevo usuario</a></div>
+  <section class="qc-admin-panel"><div class="qc-panel-head"><h2>Usuarios registrados</h2><span>{{ users.length }} total</span></div>
+    <div class="qc-table-wrap"><table><thead><tr><th>Usuario</th><th>Email</th><th>Teléfono</th><th>Propiedades</th><th>Pendientes</th><th>Estado</th><th></th></tr></thead><tbody>
+    {% for u in users %}<tr><td><b>{{ u.name }}</b><small>{{ u.id }}</small></td><td>{{ u.email }}</td><td>{{ u.phone }}</td><td>{{ u.propertyCount }}</td><td>{{ u.pendingCount }}</td><td><span class="qc-status {{ 'qc-status-disabled' if not u.active else '' }}">{{ 'Activo' if u.active else 'Desactivado' }}</span></td><td class="qc-row-actions"><a href="/qcasa/admin/usuarios/{{ u.id }}/editar">Editar</a><form action="/qcasa/admin/usuarios/{{ u.id }}/toggle" method="post"><button>{{ 'Desactivar' if u.active else 'Activar' }}</button></form><form action="/qcasa/admin/usuarios/{{ u.id }}/eliminar" method="post" onsubmit="return confirm('¿Eliminar usuario?')"><button>Eliminar</button></form></td></tr>{% endfor %}
+    </tbody></table></div>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'qcasa/layout.njk' %}{% block qcbody %}<link rel="stylesheet" href="/css/qcasa-home-dark.css">
+<main class="qc-colonia-home qc-home-v2">
+<section class="qc-hero qc-colonia-hero qc-v2-hero">
+  <div class="qc-v2-hero-photo qc-v3-hero-photo">
+    <div class="qc-hero-copy qc-v2-copy">
+      <span class="qc-kicker">INMOBILIARIA EN COLONIA DEL SACRAMENTO</span>
+      <h1>Tu lugar en<br><em>Colonia.</em></h1>
+      <p>Casas, apartamentos, terrenos, chacras, campos y locales para vivir, invertir o comenzar una nueva etapa en Colonia.</p>
+      <form class="qc-searchbar qc-v2-search" action="/qcasa/buscar" method="get"><select name="operation"><option value="">Comprar o alquilar</option><option>Venta</option><option>Alquiler</option></select><select name="category"><option value="">Tipo de propiedad</option>{% for c in categories %}<option>{{ c }}</option>{% endfor %}</select><input name="q" placeholder="Zona, barrio o palabra clave"><button>Buscar</button></form>
+      <div class="qc-home-actions"><a href="/qcasa/buscar">Búsqueda avanzada</a><a href="/qcasa/mapa">Ver en mapa</a><a class="qc-home-action-gold" href="{{ '/qcasa/mi-qcasa/publicar' if session.qcasaUser else '/qcasa/registro?publicar=1' }}">Publicar propiedad</a></div>
+      <div class="qc-shortcuts qc-v2-shortcuts">{% for c in categories %}<a href="/qcasa/buscar?category={{ c | urlencode }}">{{ c }}</a>{% endfor %}</div>
+    </div>
+    <aside class="qc-hero-values" aria-label="Por qué QCASA">
+      <article><i>⌖</i><div><b>Conocemos Colonia</b><span>Una propuesta local y cercana.</span></div></article>
+      <article><i>◇</i><div><b>Compra, venta y alquiler</b><span>Todo el proceso desde un mismo lugar.</span></div></article>
+      <article><i>▤</i><div><b>Información clara</b><span>Datos y seguimiento de cada consulta.</span></div></article>
+      <article><i>◎</i><div><b>Atención a propietarios</b><span>Publicación y seguimiento.</span></div></article>
+    </aside>
+  </div>
+</section>
+<section class="qc-section qc-colonia-featured qc-v2-featured"><div class="qc-section-head"><div><span class="qc-kicker">SELECCIÓN QCASA</span><h2>Propiedades destacadas</h2><p class="qc-colonia-demo-note">Contenido de ejemplo para visualizar el funcionamiento hasta incorporar propiedades reales.</p></div><div class="qc-section-links"><a href="/qcasa/mapa">Ver mapa →</a><a href="/qcasa/buscar">Ver todas →</a></div></div><div class="qc-card-grid qc-v2-card-grid">{% for p in featured %}<a class="qc-property-card qc-v2-card" href="/qcasa/propiedad/{{ p.slug }}"><div class="qc-property-photo" style="position:relative;overflow:hidden;"><img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"><span>{{ p.operation }}</span></div><div class="qc-property-body"><small>{{ p.category }} · {{ p.department }}</small><h3>{{ p.title }}</h3><strong>{{ money(p) }}</strong><p>{{ p.city }} · {{ p.area | int }} m²{% if p.bedrooms %} · {{ p.bedrooms }} dorm.{% endif %}</p></div></a>{% endfor %}</div></section>
+</main>{% endblock %}

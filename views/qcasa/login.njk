@@ -1,0 +1,37 @@
+{% extends 'qcasa/layout.njk' %}
+{% block qcbody %}
+<main class="qc-login-page">
+  <section>
+    <span class="qc-kicker">QCASA</span>
+    <h1>Ingresar</h1>
+    <p>Entrá para administrar tus publicaciones o, si sos administrador, revisar las propiedades enviadas.</p>
+
+    <div class="qc-register-callout">
+      <b>¿Querés publicar una propiedad?</b>
+      <span>Creá tu cuenta y enviala a revisión.</span>
+      <a href="/qcasa/registro">Crear cuenta →</a>
+    </div>
+  </section>
+
+  <form class="qc-login-card" method="post" action="/qcasa/ingresar">
+    {% if error %}<div class="qc-error">{{ error }}</div>{% endif %}
+
+    <label>Email<input type="email" name="email" required></label>
+    <label>Contraseña<input type="password" name="password" required></label>
+    <button>Ingresar</button>
+
+    <div class="qc-demo">
+      <b>Administrador demo</b>
+      <code>{{ demoAdmin.email }}</code>
+      <code>{{ demoAdmin.password }}</code>
+    </div>
+
+    <div class="qc-demo qc-demo-user">
+      <b>Usuario demo · {{ demoUser.name }}</b>
+      <code>{{ demoUser.email }}</code>
+      <code>{{ demoUser.password }}</code>
+      <small>Incluye propiedad pendiente, rechazada y publicada.</small>
+    </div>
+  </form>
+</main>
+{% endblock %}

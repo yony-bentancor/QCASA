@@ -1,0 +1,8 @@
+<nav class="qc-admin-nav" data-admin-nav>
+  <a data-admin-section="dashboard" href="/qcasa/admin">Dashboard</a>
+  <a data-admin-section="properties" href="/qcasa/admin/propiedades">Propiedades</a>
+  <div class="qc-admin-dropdown" data-admin-dropdown><button type="button" data-admin-section="management" data-admin-dropdown-toggle aria-expanded="false">Gestión ▾</button><div class="qc-admin-dropdown-menu"><a href="/qcasa/admin/propiedades/nueva">+ Cargar propiedad</a><a href="/qcasa/admin/usuarios">Usuarios</a><a href="/qcasa/admin/consultas">Consultas</a></div></div>
+  <a data-admin-section="settings" href="/qcasa/admin/configuracion">Configuración</a>
+  <form method="post" action="/qcasa/salir"><button type="submit">Salir</button></form>
+</nav>
+<script>(function(){const p=location.pathname;let s=p==='/qcasa/admin'?'dashboard':p.startsWith('/qcasa/admin/propiedades')?'properties':(p.startsWith('/qcasa/admin/usuarios')||p.startsWith('/qcasa/admin/consultas'))?'management':p.startsWith('/qcasa/admin/configuracion')?'settings':'';document.querySelectorAll('[data-admin-section]').forEach(a=>a.classList.toggle('is-active',a.dataset.adminSection===s));})();</script>

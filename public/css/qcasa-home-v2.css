@@ -1,0 +1,411 @@
+/* =========================================================
+   QCASA HOME V2
+   Rediseño exclusivo de la portada.
+   Se carga DESPUÉS de qcasa.css y qcasa-colonia.css.
+   No modifica búsqueda, detalle, login ni administración.
+   ========================================================= */
+
+.qc-home-v2{
+  --v2-green:#0b5b53;
+  --v2-green-dark:#073d38;
+  --v2-mint:#82e2b0;
+  --v2-cream:#f7f2e9;
+  --v2-sand:#eadfce;
+  --v2-terracotta:#c86748;
+  --v2-ink:#10201d;
+  background:#fff;
+}
+
+/* HERO */
+.qc-home-v2 .qc-v2-hero{
+  min-height:560px;
+  display:block;
+  background:none;
+  overflow:hidden;
+}
+
+.qc-v2-hero-photo{
+  min-height:560px;
+  position:relative;
+  background-size:cover;
+  background-position:center;
+}
+
+.qc-home-v2 .qc-v2-copy{
+  width:min(760px,58%);
+  padding:66px 0 42px 5.5vw;
+  color:#fff;
+  position:relative;
+  z-index:3;
+}
+
+.qc-home-v2 .qc-v2-copy .qc-kicker{
+  color:#baf4d6;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:15px;
+}
+
+.qc-home-v2 .qc-v2-copy h1{
+  margin:0 0 16px;
+  color:#fff;
+  font-size:64px;
+  line-height:.98;
+  letter-spacing:-3px;
+  text-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+
+.qc-home-v2 .qc-v2-copy h1 em{
+  color:var(--v2-mint);
+}
+
+.qc-home-v2 .qc-v2-copy>p{
+  max-width:600px;
+  margin:0;
+  color:#f3f3ef;
+  font-size:16px;
+  line-height:1.48;
+}
+
+.qc-home-v2 .qc-v2-search{
+  max-width:750px;
+  margin-top:24px;
+  border:0;
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 14px 32px rgba(0,0,0,.22);
+}
+
+.qc-home-v2 .qc-v2-search select,
+.qc-home-v2 .qc-v2-search input{
+  min-height:50px;
+}
+
+.qc-home-v2 .qc-v2-search button{
+  min-width:130px;
+  background:var(--v2-green);
+}
+
+.qc-home-v2 .qc-v2-shortcuts{
+  margin-top:16px;
+}
+
+.qc-home-v2 .qc-v2-shortcuts a{
+  padding:8px 12px;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:6px;
+  background:rgba(4,34,29,.34);
+  backdrop-filter:blur(6px);
+  font-size:10px;
+}
+
+.qc-home-v2 .qc-v2-shortcuts a:hover{
+  border-color:var(--v2-mint);
+  background:rgba(4,34,29,.62);
+}
+
+.qc-v2-slogan{
+  position:absolute;
+  z-index:3;
+  right:7vw;
+  top:42px;
+  display:grid;
+  gap:0;
+  color:#fff;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  font-style:italic;
+  line-height:1.02;
+  transform:rotate(-4deg);
+  text-align:center;
+  text-shadow:0 2px 10px rgba(0,0,0,.28);
+}
+
+.qc-v2-slogan:after{
+  content:"";
+  width:125px;
+  height:2px;
+  margin:10px auto 0;
+  background:var(--v2-mint);
+  transform:rotate(-5deg);
+}
+
+.qc-home-v2 .qc-v2-location{
+  left:auto;
+  right:5.5vw;
+  bottom:26px;
+  min-width:260px;
+  border:1px solid rgba(255,255,255,.35);
+  border-left:4px solid var(--v2-mint);
+  border-radius:7px;
+  background:rgba(5,43,38,.83);
+  color:#fff;
+  box-shadow:0 14px 28px rgba(0,0,0,.22);
+  backdrop-filter:blur(6px);
+}
+
+.qc-home-v2 .qc-v2-location small{color:var(--v2-mint)}
+.qc-home-v2 .qc-v2-location span{color:#dcebe6}
+
+/* VALUES */
+.qc-home-v2 .qc-v2-values{
+  grid-template-columns:repeat(4,1fr);
+  padding:0 4.5vw;
+  background:#0b332f;
+  border:0;
+}
+
+.qc-home-v2 .qc-v2-values article{
+  min-height:95px;
+  padding:22px 20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-right:1px solid rgba(255,255,255,.11);
+}
+
+.qc-home-v2 .qc-v2-values article:last-child{border-right:0}
+
+.qc-home-v2 .qc-v2-values i{
+  color:var(--v2-mint);
+  font-size:25px;
+  font-style:normal;
+}
+
+.qc-home-v2 .qc-v2-values b{
+  color:#fff;
+  font-size:12px;
+}
+
+.qc-home-v2 .qc-v2-values span{
+  color:#b8cdc7;
+  font-size:10px;
+}
+
+/* FEATURED */
+.qc-home-v2 .qc-v2-featured{
+  padding:48px 5.5vw 56px;
+  background:linear-gradient(180deg,#fff,#fbf7f1);
+}
+
+.qc-home-v2 .qc-v2-featured .qc-section-head{
+  align-items:center;
+}
+
+.qc-home-v2 .qc-v2-featured .qc-section-head h2{
+  color:var(--v2-ink);
+  font-size:32px;
+  letter-spacing:-1px;
+}
+
+.qc-home-v2 .qc-v2-featured .qc-kicker{
+  color:var(--v2-green);
+}
+
+.qc-home-v2 .qc-v2-see-all{
+  padding:12px 18px;
+  border:1px solid var(--v2-green);
+  border-radius:6px;
+}
+
+.qc-home-v2 .qc-v2-card-grid{
+  gap:20px;
+}
+
+.qc-home-v2 .qc-v2-card{
+  overflow:hidden;
+  border:1px solid #e7ded2;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:0 8px 22px rgba(70,48,28,.06);
+}
+
+.qc-home-v2 .qc-v2-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 30px rgba(70,48,28,.11);
+}
+
+.qc-home-v2 .qc-v2-card .qc-property-photo{
+  height:210px;
+}
+
+.qc-home-v2 .qc-v2-card .qc-property-photo span{
+  color:var(--v2-green);
+  border-radius:4px;
+}
+
+.qc-home-v2 .qc-v2-card .qc-property-body{
+  padding:17px 17px 19px;
+}
+
+.qc-home-v2 .qc-v2-card .qc-property-body small{
+  color:var(--v2-green);
+}
+
+.qc-home-v2 .qc-v2-card .qc-property-body h3{
+  margin-top:8px;
+  color:var(--v2-ink);
+  font-size:17px;
+}
+
+.qc-home-v2 .qc-v2-card .qc-property-body strong{
+  color:var(--v2-green);
+}
+
+/* ZONES */
+.qc-home-v2 .qc-v2-zones{
+  padding:52px 5.5vw 60px;
+  background:#f0e9de;
+}
+
+.qc-home-v2 .qc-v2-zones .qc-colonia-zones-head h2{
+  color:var(--v2-ink);
+}
+
+.qc-home-v2 .qc-v2-zones .qc-colonia-zones-head p{
+  color:#665f56;
+}
+
+.qc-home-v2 .qc-v2-zone-grid{
+  gap:14px;
+}
+
+.qc-home-v2 .qc-zone-card{
+  min-height:235px;
+  border-radius:8px;
+  box-shadow:0 8px 20px rgba(57,42,28,.08);
+}
+
+.qc-home-v2 .qc-zone-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 28px rgba(57,42,28,.16);
+}
+
+/* OWNER */
+.qc-home-v2 .qc-v2-owner{
+  padding:44px 6vw;
+  background:#dceee5;
+  border-top:1px solid #ccdfd6;
+}
+
+.qc-home-v2 .qc-v2-owner h2{
+  color:var(--v2-ink);
+}
+
+.qc-home-v2 .qc-v2-owner p{
+  color:#52655f;
+}
+
+.qc-home-v2 .qc-v2-owner .qc-colonia-primary{
+  background:var(--v2-green);
+  border-radius:5px;
+}
+
+.qc-home-v2 .qc-v2-owner .qc-colonia-secondary{
+  color:var(--v2-green);
+  border-color:var(--v2-green);
+  border-radius:5px;
+}
+
+/* QCASA + QPROPIEDADES */
+.qc-home-v2 .qc-v2-connect{
+  background:var(--v2-green-dark);
+}
+
+.qc-home-v2 .qc-v2-connect .qc-kicker{
+  color:var(--v2-mint);
+}
+
+.qc-home-v2 .qc-v2-connect>a{
+  background:var(--v2-mint);
+  color:var(--v2-green-dark);
+  border-radius:5px;
+}
+
+/* Responsive */
+@media(max-width:1050px){
+  .qc-home-v2 .qc-v2-copy{
+    width:72%;
+  }
+
+  .qc-v2-slogan{
+    display:none;
+  }
+
+  .qc-home-v2 .qc-v2-values{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .qc-home-v2 .qc-v2-location{
+    right:3vw;
+  }
+}
+
+@media(max-width:760px){
+  .qc-home-v2 .qc-v2-hero,
+  .qc-v2-hero-photo{
+    min-height:690px;
+  }
+
+  .qc-home-v2 .qc-v2-copy{
+    width:100%;
+    padding:46px 22px 30px;
+  }
+
+  .qc-home-v2 .qc-v2-copy h1{
+    font-size:50px;
+  }
+
+  .qc-home-v2 .qc-v2-search{
+    grid-template-columns:1fr;
+  }
+
+  .qc-home-v2 .qc-v2-search select,
+  .qc-home-v2 .qc-v2-search input{
+    border-right:0;
+    border-bottom:1px solid #e3e6e4;
+  }
+
+  .qc-home-v2 .qc-v2-search button{
+    min-height:48px;
+  }
+
+  .qc-home-v2 .qc-v2-location{
+    left:22px;
+    right:22px;
+    bottom:20px;
+    min-width:0;
+  }
+
+  .qc-home-v2 .qc-v2-values{
+    grid-template-columns:1fr;
+    padding:0;
+  }
+
+  .qc-home-v2 .qc-v2-values article{
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.11);
+  }
+
+  .qc-home-v2 .qc-v2-featured{
+    padding:38px 22px 42px;
+  }
+
+  .qc-home-v2 .qc-v2-featured .qc-section-head{
+    display:block;
+  }
+
+  .qc-home-v2 .qc-v2-see-all{
+    display:inline-block;
+    margin-top:18px;
+  }
+
+  .qc-home-v2 .qc-v2-zones{
+    padding:40px 22px;
+  }
+
+  .qc-home-v2 .qc-v2-owner{
+    padding:36px 22px;
+  }
+}

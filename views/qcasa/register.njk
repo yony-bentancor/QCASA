@@ -1,0 +1,29 @@
+{% extends 'qcasa/layout.njk' %}
+{% block qcbody %}
+<main class="qc-auth-simple">
+  <section class="qc-auth-intro">
+    <span class="qc-kicker">PUBLICÁ EN QCASA</span>
+    <h1>Creá tu cuenta.</h1>
+    <p>El MVP está activo en Colonia. Después de registrarte vas directo a cargar tu propiedad y enviarla al equipo de QCASA para aprobación.</p>
+
+    <div class="qc-approval-flow">
+      <span><b>1</b> Creás tu cuenta</span>
+      <span><b>2</b> Cargás tu propiedad y fotos</span>
+      <span><b>3</b> QCASA la revisa</span>
+      <span><b>4</b> Si se aprueba, se publica</span>
+    </div>
+  </section>
+
+  <form class="qc-auth-card" method="post" action="/qcasa/registro">{% if publishNext %}<input type="hidden" name="next" value="publicar">{% endif %}
+    <h2>Registro</h2>
+    {% if error %}<div class="qc-error">{{ error }}</div>{% endif %}
+    <label>Nombre y apellido<input name="name" required></label>
+    <label>Email<input type="email" name="email" required></label>
+    <label>Teléfono<input name="phone" required></label>
+    <label>Contraseña<input type="password" name="password" minlength="4" required></label>
+    <label>Repetir contraseña<input type="password" name="password2" minlength="4" required></label>
+    <button>Crear cuenta</button>
+    <small>Ya tengo cuenta · <a href="/qcasa/ingresar">Ingresar</a></small>
+  </form>
+</main>
+{% endblock %}

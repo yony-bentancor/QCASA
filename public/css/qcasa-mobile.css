@@ -1,0 +1,664 @@
+/* QCASA mobile-first repair. Desktop rules are intentionally untouched. */
+
+.qc-mobile-menu-toggle,
+.qc-mobile-menu-close,
+.qc-mobile-account,
+.qc-back-to-top,
+.qc-mobile-menu-backdrop {
+    display: none;
+}
+
+.qc-favorites-fab {
+    position: fixed;
+    right: 22px;
+    bottom: 24px;
+    z-index: 70;
+    border: 1px solid #d8e1dd;
+    background: #fff;
+    color: #073c35;
+    border-radius: 999px;
+    min-width: 48px;
+    height: 44px;
+    padding: 0 14px;
+    font-weight: 850;
+    box-shadow: 0 8px 24px rgba(7, 60, 53, .14);
+    cursor: pointer;
+}
+
+.qc-favorites-fab[hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+    body.qc-mobile-nav-open {
+        overflow: hidden;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER
+       ----------------------------------------------------- */
+
+    .qc-nav-unified {
+        min-height: 64px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 18px !important;
+        position: relative !important;
+
+        /*
+         * Importante:
+         * el header completo queda por encima del backdrop.
+         */
+        z-index: 1000 !important;
+    }
+
+
+    /* -----------------------------------------------------
+       BOTÓN HAMBURGUESA
+       ----------------------------------------------------- */
+
+    .qc-mobile-menu-toggle {
+        display: flex;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(7, 60, 53, .18);
+        background: transparent;
+        border-radius: 6px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        padding: 0;
+        cursor: pointer;
+        position: relative;
+        z-index: 1102;
+    }
+
+    .qc-mobile-menu-toggle span {
+        width: 18px;
+        height: 1.5px;
+        background: #073c35;
+    }
+
+
+    /* -----------------------------------------------------
+       PANEL LATERAL
+       ----------------------------------------------------- */
+
+    .qc-nav-unified .qc-main-nav {
+        display: flex !important;
+
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+
+        /*
+         * 84vw en lugar de 88vw:
+         * deja visible una franja de la página.
+         */
+        width: min(84vw, 340px) !important;
+        height: 100dvh !important;
+
+        background: #f7f3e9 !important;
+
+        padding: 82px 24px 30px !important;
+
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+
+        gap: 0 !important;
+
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+
+        transform: translateX(105%);
+        visibility: hidden;
+
+        /*
+         * Cuando está cerrado tampoco puede interceptar clicks.
+         */
+        pointer-events: none;
+
+        transition:
+            transform .26s ease,
+            visibility .26s ease;
+
+        box-shadow: -20px 0 60px rgba(0, 0, 0, .16);
+
+        /*
+         * El panel queda definitivamente por encima
+         * del backdrop.
+         */
+        z-index: 1100 !important;
+    }
+
+
+    .qc-nav-unified .qc-main-nav.is-mobile-open {
+        transform: translateX(0);
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+
+    /* -----------------------------------------------------
+       BOTÓN CERRAR
+       ----------------------------------------------------- */
+
+    .qc-mobile-menu-close {
+        display: block;
+
+        position: absolute;
+        top: 18px;
+        right: 18px;
+
+        width: 44px;
+        height: 44px;
+
+        border: 0;
+        background: transparent;
+
+        color: #073c35;
+
+        font-size: 30px;
+        line-height: 1;
+
+        cursor: pointer;
+
+        z-index: 1102 !important;
+        pointer-events: auto !important;
+    }
+
+
+    /* -----------------------------------------------------
+       LINKS DEL MENÚ
+       ----------------------------------------------------- */
+
+    .qc-nav-unified .qc-main-nav > a {
+        width: 100% !important;
+
+        min-height: 50px !important;
+
+        display: flex !important;
+        align-items: center !important;
+
+        padding: 0 4px !important;
+        margin: 0 !important;
+
+        border: 0 !important;
+        border-bottom: 1px solid rgba(7, 60, 53, .12) !important;
+
+        border-radius: 0 !important;
+
+        background: transparent !important;
+
+        color: #10231f !important;
+
+        font-size: 15px !important;
+        font-weight: 650 !important;
+
+        text-decoration: none !important;
+
+        position: relative;
+        z-index: 1101;
+
+        pointer-events: auto !important;
+        cursor: pointer;
+    }
+
+
+    .qc-nav-unified .qc-main-nav .qc-publish-plain {
+        padding: 0 4px !important;
+    }
+
+
+    /*
+     * Garantiza que cualquier control dentro del menú
+     * reciba touch/click.
+     */
+
+    .qc-nav-unified .qc-main-nav a,
+    .qc-nav-unified .qc-main-nav button,
+    .qc-nav-unified .qc-main-nav select {
+        position: relative;
+        z-index: 1101;
+        pointer-events: auto !important;
+    }
+
+
+    /* -----------------------------------------------------
+       MONEDA
+       ----------------------------------------------------- */
+
+    .qc-currency-switch {
+        margin: 18px 0 8px !important;
+        position: relative;
+        z-index: 1101;
+    }
+
+    .qc-currency-switch select {
+        min-height: 44px !important;
+        width: 100% !important;
+    }
+
+
+    /* -----------------------------------------------------
+       CUENTA
+       ----------------------------------------------------- */
+
+    .qc-nav-dropdown {
+        display: none !important;
+    }
+
+    .qc-mobile-account {
+        display: block;
+        margin-top: 6px;
+
+        position: relative;
+        z-index: 1101;
+    }
+
+    .qc-mobile-account > a,
+    .qc-mobile-account button {
+        width: 100%;
+
+        min-height: 48px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 4px;
+
+        border: 0;
+        border-bottom: 1px solid rgba(7, 60, 53, .12);
+
+        background: transparent;
+
+        color: #073c35;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 750;
+
+        cursor: pointer;
+
+        pointer-events: auto !important;
+    }
+
+    .qc-mobile-account form {
+        margin: 0;
+    }
+
+
+    /* -----------------------------------------------------
+       BACKDROP
+       ----------------------------------------------------- */
+
+    .qc-mobile-menu-backdrop {
+        position: fixed;
+
+        inset: 0;
+
+        /*
+         * CORRECCIÓN PRINCIPAL:
+         * la cortina queda por debajo del header/menu.
+         */
+        z-index: 999 !important;
+
+        background: rgba(0, 0, 0, .44);
+
+        opacity: 0;
+        visibility: hidden;
+
+        pointer-events: none;
+
+        transition:
+            opacity .24s ease,
+            visibility .24s ease;
+    }
+
+
+    .qc-mobile-menu-backdrop.is-open {
+        display: block;
+
+        opacity: 1;
+        visibility: visible;
+
+        /*
+         * Permite tocar la zona exterior para cerrar.
+         * Como su z-index es 999, nunca tapa el menú.
+         */
+        pointer-events: auto;
+    }
+
+
+    /* -----------------------------------------------------
+       FOOTER
+       ----------------------------------------------------- */
+
+    .qc-footer-minimal {
+        grid-template-columns: 1fr !important;
+        text-align: center !important;
+        gap: 12px !important;
+    }
+
+    .qc-footer-copyright {
+        display: none !important;
+    }
+
+    .qc-back-to-top {
+        display: inline-flex !important;
+
+        justify-self: center;
+        align-items: center;
+
+        min-height: 44px;
+
+        padding: 0 12px;
+
+        color: #073c35;
+
+        text-decoration: none;
+
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+
+    /* -----------------------------------------------------
+       FAVORITOS
+       ----------------------------------------------------- */
+
+    .qc-favorites-fab {
+        right: 14px;
+        bottom: 16px;
+
+        height: 44px;
+        min-width: 46px;
+
+        padding: 0 12px;
+    }
+
+
+    /* -----------------------------------------------------
+       COMPARADOR
+       ----------------------------------------------------- */
+
+    .qc-compare-bar {
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 10px !important;
+
+        width: auto !important;
+        max-width: none !important;
+
+        flex-wrap: wrap !important;
+
+        gap: 8px !important;
+
+        padding: 10px 12px !important;
+    }
+
+
+    /* =====================================================
+       ADMINISTRACIÓN
+       ===================================================== */
+
+    .qc-admin {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .qc-admin-head {
+        display: block !important;
+    }
+
+    .qc-admin-head > .qc-admin-nav {
+        margin: 18px 0 0 !important;
+
+        width: 100% !important;
+
+        display: grid !important;
+
+        grid-template-columns: 1fr 1fr !important;
+
+        gap: 8px !important;
+    }
+
+
+    .qc-admin-nav > a,
+    .qc-admin-nav > form,
+    .qc-admin-dropdown {
+        width: 100% !important;
+    }
+
+
+    .qc-admin-nav > a,
+    .qc-admin-nav > form > button,
+    .qc-admin-dropdown > button {
+        width: 100% !important;
+
+        min-height: 44px !important;
+
+        justify-content: center !important;
+    }
+
+
+    /* -----------------------------------------------------
+       ADMIN · GESTIÓN DROPDOWN
+       ----------------------------------------------------- */
+
+    .qc-admin-dropdown {
+        position: relative !important;
+    }
+
+    .qc-admin-dropdown-menu {
+        display: none !important;
+
+        position: absolute !important;
+
+        z-index: 1200 !important;
+
+        left: 0 !important;
+        right: 0 !important;
+        top: calc(100% + 4px) !important;
+
+        min-width: 210px !important;
+
+        background: #fff !important;
+
+        border: 1px solid #d9e2dd !important;
+
+        box-shadow:
+            0 12px 28px rgba(7, 60, 53, .16) !important;
+    }
+
+
+    .qc-admin-dropdown.is-open .qc-admin-dropdown-menu {
+        display: block !important;
+    }
+
+
+    .qc-admin-dropdown-menu a {
+        display: flex !important;
+
+        min-height: 44px !important;
+
+        align-items: center !important;
+
+        padding: 0 14px !important;
+
+        pointer-events: auto !important;
+    }
+
+
+    /* -----------------------------------------------------
+       ADMIN · ESTADOS
+       ----------------------------------------------------- */
+
+    .qc-property-status-tabs {
+        grid-template-columns: 1fr 1fr !important;
+
+        gap: 7px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       ADMIN · PROPIEDADES
+       ----------------------------------------------------- */
+
+    .qc-admin-property-list article {
+        grid-template-columns:
+            68px minmax(0, 1fr) !important;
+
+        gap: 11px !important;
+    }
+
+
+    .qc-admin-property-public {
+        min-width: 0 !important;
+    }
+
+
+    .qc-admin-property-actions {
+        grid-column: 1 / -1 !important;
+
+        display: flex !important;
+
+        justify-content: flex-end !important;
+
+        gap: 8px !important;
+
+        flex-wrap: wrap !important;
+    }
+
+
+    .qc-admin-property-actions a {
+        min-height: 42px !important;
+
+        display: inline-flex !important;
+
+        align-items: center !important;
+
+        padding: 0 12px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       ADMIN · DASHBOARD
+       ----------------------------------------------------- */
+
+    .qc-dashboard-kpis {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+
+    .qc-funnel {
+        overflow-x: auto !important;
+
+        padding-bottom: 8px !important;
+    }
+
+
+    .qc-funnel > a {
+        min-width: 130px !important;
+    }
+
+
+    .qc-dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+
+    .qc-performance-list article {
+        overflow-x: auto !important;
+    }
+
+
+    /* =====================================================
+       BÚSQUEDA
+       ===================================================== */
+
+    .qc-search-head-premium {
+        padding-top: 28px !important;
+        padding-bottom: 24px !important;
+    }
+
+
+    .qc-search-head-premium h1 {
+        font-size: 31px !important;
+    }
+
+
+    .qc-filters-primary {
+        grid-template-columns: 1fr !important;
+    }
+
+
+    .qc-filters-primary > input,
+    .qc-filters-primary > select,
+    .qc-filters-primary > button {
+        min-height: 46px !important;
+        height: 46px !important;
+    }
+
+
+    /* =====================================================
+       VIDEO
+       ===================================================== */
+
+    .qc-property-video {
+        padding: 18px !important;
+    }
+
+
+    .qc-property-video iframe,
+    .qc-property-video video {
+        max-height: none !important;
+    }
+
+
+    /* =====================================================
+       GALERÍA
+       ===================================================== */
+
+    .qc-gallery-modal img {
+        max-width: 94vw !important;
+        max-height: 78vh !important;
+    }
+}
+
+
+/* =========================================================
+   TELÉFONOS ANGOSTOS
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+    .qc-admin {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .qc-dashboard-kpis {
+        grid-template-columns: 1fr !important;
+    }
+
+    .qc-property-status-tabs {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .qc-nav-unified .qc-main-nav {
+        width: 84vw !important;
+    }
+}
