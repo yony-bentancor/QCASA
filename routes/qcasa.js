@@ -19,15 +19,15 @@ router.get('/',qcasa.home);
 router.get('/buscar',qcasa.search);
 router.get('/mapa',qcasa.map);
 router.get('/propiedad/:slug',enhancements.detail);
-router.post('/propiedad/:slug/consulta',enhancements.inquiry);
-router.post('/contacto',enhancements.contact);
+router.post('/propiedad/:slug/consulta',publicFormLimiter,enhancements.inquiry);
+router.post('/contacto',publicFormLimiter,enhancements.contact);
 router.post('/moneda',qcasa.currencyPreference);
 
 // Acceso QCASA
 router.get('/ingresar',qcasa.loginForm);
-router.post('/ingresar',qcasa.login);
+router.post('/ingresar',authLimiter,qcasa.login);
 router.get('/registro',qcasa.registerForm);
-router.post('/registro',qcasa.register);
+router.post('/registro',authLimiter,qcasa.register);
 router.post('/salir',qcasa.logout);
 
 // Mi QCASA

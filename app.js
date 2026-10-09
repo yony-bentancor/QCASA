@@ -87,6 +87,14 @@ async function start(){
       const claveAdmin=String(process.env.QCASA_ADMIN_PASSWORD||'').trim();
       if(claveAdmin&&!passwords.verificar(store.admin.password,claveAdmin).ok){store.admin.password=passwords.hash(claveAdmin);}
       if(process.env.QCASA_ADMIN_EMAIL)store.admin.email=String(process.env.QCASA_ADMIN_EMAIL).trim().toLowerCase();
+      // Usuarios de muestra: su contraseña de demostración está en el código público,
+      // así que se reemplaza por una al azar. Los datos quedan, pero nadie puede entrar con ellos.
+      const crypto=require('crypto');
+      let bloqueados=0;
+      (store.users||[]).forEach(u=>{
+        if(passwords.verificar(u.password,'demo123').ok){u.password=passwords.hash(crypto.randomBytes(24).toString('base64url'));bloqueados++;}
+      });
+      if(bloqueados)console.log(`[seguridad] ${bloqueados} usuario(s) de muestra quedaron sin acceso.`);
       await persistencia.guardar();
       if(!claveAdmin)console.warn('AVISO: falta QCASA_ADMIN_PASSWORD; el administrador sigue con la contraseña de demostración.');
       setInterval(()=>persistencia.guardar(),30000).unref();
