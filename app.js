@@ -21,7 +21,7 @@ const PORT=process.env.PORT||3002;
 const DEV_SECRET='qcasa-dev-secret';
 app.locals.demoMode=String(process.env.DEMO_MODE||'true').toLowerCase()!=='false';
 app.locals.links={
-  estudioqr:process.env.ESTUDIOQR_URL||'https://estudioqr-7fd22333fa47.herokuapp.com/'
+  estudioqr:process.env.ESTUDIOQR_URL||'https://estudioqr.com.uy/'
 };
 
 app.set('trust proxy',1);
