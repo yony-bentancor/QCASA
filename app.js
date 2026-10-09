@@ -7,6 +7,7 @@ const nunjucks=require('nunjucks');
 const{exposeSession}=require('./middleware/auth');
 const{money,alertLevel,alertText}=require('./utils/helpers');
 const{connectDatabase}=require('./config/database');
+const{crearPersistencia}=require('./data/persistencia');
 const{helmetMiddleware}=require('./middleware/commercialSecurity');
 const seo=require('./controllers/seoController');
 
@@ -59,6 +60,9 @@ app.locals.alertText=alertText;
 app.get('/',(req,res)=>res.redirect('/qcasa'));
 app.get('/robots.txt',seo.robots);
 app.get('/qcasa/sitemap.xml',seo.sitemap);
+// Con USE_MONGO=true, cada cambio se guarda en MongoDB al terminar el pedido.
+let persistencia=null;
+app.use((req,res,next)=>persistencia?persistencia.middleware(req,res,next):next());
 app.use('/qcasa',require('./routes/qcasa'));
 
 app.use((err,req,res,next)=>{
@@ -71,7 +75,24 @@ async function start(){
   try{
     if(process.env.NODE_ENV==='production'&&(!process.env.SESSION_SECRET||process.env.SESSION_SECRET===DEV_SECRET)) throw new Error('SESSION_SECRET es obligatorio y debe ser propio en producción.');
     const db=await connectDatabase();
-    if(db.connected) console.log('MongoDB conectado (los repositorios siguen en modo demo en esta etapa).');
+    if(db.connected){
+      // Los datos pasan a vivir en MongoDB: se cargan antes de aceptar visitas.
+      const mongoose=require('mongoose');
+      const store=require('./data/qcasaMarketplaceStore');
+      persistencia=crearPersistencia(store,mongoose.connection.db);
+      await persistencia.cargar();
+      app.locals.datosReales=true;
+      // Contraseña del administrador: QCASA_ADMIN_PASSWORD manda sobre la guardada.
+      const passwords=require('./utils/passwords');
+      const claveAdmin=String(process.env.QCASA_ADMIN_PASSWORD||'').trim();
+      if(claveAdmin&&!passwords.verificar(store.admin.password,claveAdmin).ok){store.admin.password=passwords.hash(claveAdmin);}
+      if(process.env.QCASA_ADMIN_EMAIL)store.admin.email=String(process.env.QCASA_ADMIN_EMAIL).trim().toLowerCase();
+      await persistencia.guardar();
+      if(!claveAdmin)console.warn('AVISO: falta QCASA_ADMIN_PASSWORD; el administrador sigue con la contraseña de demostración.');
+      setInterval(()=>persistencia.guardar(),30000).unref();
+      process.once('SIGTERM',async()=>{await persistencia.guardar();process.exit(0);});
+      console.log('MongoDB conectado: los datos se guardan en la base.');
+    }
     app.listen(PORT,()=>console.log(`QCASA activo en http://localhost:${PORT}/qcasa`));
   }catch(err){
     console.error('No se pudo iniciar QCASA:',err.message);

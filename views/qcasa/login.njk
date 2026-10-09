@@ -20,18 +20,22 @@
     <label>Contraseña<input type="password" name="password" required></label>
     <button>Ingresar</button>
 
+    {% if demoAdmin %}
     <div class="qc-demo">
       <b>Administrador demo</b>
       <code>{{ demoAdmin.email }}</code>
-      <code>{{ demoAdmin.password }}</code>
+      {% if demoAdmin.password %}<code>{{ demoAdmin.password }}</code>{% endif %}
     </div>
+    {% endif %}
 
+    {% if demoUser %}
     <div class="qc-demo qc-demo-user">
       <b>Usuario demo · {{ demoUser.name }}</b>
       <code>{{ demoUser.email }}</code>
-      <code>{{ demoUser.password }}</code>
+      {% if demoUser.password %}<code>{{ demoUser.password }}</code>{% endif %}
       <small>Incluye propiedad pendiente, rechazada y publicada.</small>
     </div>
+    {% endif %}
   </form>
 </main>
 {% endblock %}

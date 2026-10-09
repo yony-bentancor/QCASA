@@ -1,4 +1,9 @@
 const store=require('../repositories/qcasaRepository');
+const passwords=require('../utils/passwords');
+// Con datos reales (MongoDB) nunca se muestran credenciales de demostración.
+const mostrarDemo=req=>req.app.locals.demoMode&&!req.app.locals.datosReales;
+const demoCred=c=>c?{name:c.name,email:c.email,password:passwords.esHash(c.password)?'':c.password}:null;
+const loginView=(req,extra={})=>({title:'Ingresar | QCASA',error:null,demoAdmin:mostrarDemo(req)?demoCred(store.admin):null,demoUser:mostrarDemo(req)?demoCred(store.users[0]):null,...extra});
 
 const publicProperties=()=>store.properties.filter(p=>p.status==='Publicada');
 const cleanEmail=v=>String(v||'').trim().toLowerCase();
@@ -67,7 +72,8 @@ function moneyFor(req){
 }
 
 function uploadedPhotos(req){
-  return (req.files||[]).map(file=>`/uploads/qcasa/${file.filename}`);
+  // file.url lo completa middleware/subirFotosR2 cuando R2 está configurado
+  return (req.files||[]).map(file=>file.url||`/uploads/qcasa/${file.filename}`);
 }
 
 function userFormPayload(req){
@@ -231,22 +237,26 @@ exports.inquiry=(req,res)=>{
 };
 
 /* Login / registro */
-exports.loginForm=(req,res)=>res.render('qcasa/login.njk',{title:'Ingresar | QCASA',error:null,demoAdmin:store.admin,demoUser:store.users[0]});
+exports.loginForm=(req,res)=>res.render('qcasa/login.njk',loginView(req));
 
 exports.login=(req,res)=>{
   const email=cleanEmail(req.body.email),password=String(req.body.password||'');
-  if(email===store.admin.email.toLowerCase()&&password===store.admin.password){
+  const adminCheck=email===store.admin.email.toLowerCase()?passwords.verificar(store.admin.password,password):{ok:false};
+  if(adminCheck.ok){
+    if(adminCheck.actualizar)store.admin.password=passwords.hash(password);
     req.session.qcasaAdmin={id:store.admin.id,email:store.admin.email,name:store.admin.name};
     delete req.session.qcasaUser;
     return req.session.save(()=>res.redirect('/qcasa/admin'));
   }
   const user=store.findUserByEmail(email);
-  if(user&&user.active!==false&&user.password===password){
+  const userCheck=user&&user.active!==false?passwords.verificar(user.password,password):{ok:false};
+  if(userCheck.ok){
+    if(userCheck.actualizar){user.password=passwords.hash(password);user.updatedAt=new Date().toISOString();}
     req.session.qcasaUser={id:user.id,email:user.email,name:user.name,phone:user.phone};
     delete req.session.qcasaAdmin;
     return req.session.save(()=>res.redirect('/qcasa/mi-qcasa'));
   }
-  return res.status(401).render('qcasa/login.njk',{title:'Ingresar | QCASA',error:'Usuario o contraseña incorrectos.',demoAdmin:store.admin,demoUser:store.users[0]});
+  return res.status(401).render('qcasa/login.njk',loginView(req,{error:'Usuario o contraseña incorrectos.'}));
 };
 
 exports.registerForm=(req,res)=>res.render('qcasa/register.njk',{title:'Crear cuenta | QCASA',error:null,publishNext:req.query.publicar==='1'});
@@ -256,7 +266,7 @@ exports.register=(req,res)=>{
   if(!name||!email||!phone||password.length<4)return res.status(400).render('qcasa/register.njk',{title:'Crear cuenta | QCASA',error:'Completá nombre, email, teléfono y una contraseña de al menos 4 caracteres.'});
   if(password!==password2)return res.status(400).render('qcasa/register.njk',{title:'Crear cuenta | QCASA',error:'Las contraseñas no coinciden.'});
   if(email===store.admin.email.toLowerCase()||store.findUserByEmail(email))return res.status(409).render('qcasa/register.njk',{title:'Crear cuenta | QCASA',error:'Ya existe una cuenta con ese email.'});
-  const user={id:store.nextUserId(),name,email,phone,password,createdAt:new Date().toISOString(),active:true};
+  const user={id:store.nextUserId(),name,email,phone,password:passwords.hash(password),createdAt:new Date().toISOString(),active:true};
   store.users.push(user);
   req.session.qcasaUser={id:user.id,email:user.email,name:user.name,phone:user.phone};
   req.session.save(()=>res.redirect(req.body.next==='publicar'?'/qcasa/mi-qcasa/publicar':'/qcasa/mi-qcasa'));
@@ -504,7 +514,7 @@ exports.adminUserCreate=(req,res)=>{
   const email=cleanEmail(req.body.email);
   if(!clean(req.body.name)||!email||!clean(req.body.phone)||!req.body.password)return res.status(400).send('Faltan datos obligatorios.');
   if(email===store.admin.email.toLowerCase()||store.findUserByEmail(email))return res.status(409).send('Ya existe un usuario con ese email.');
-  store.users.push({id:store.nextUserId(),name:clean(req.body.name),email,phone:clean(req.body.phone),password:String(req.body.password),active:true,createdAt:new Date().toISOString()});
+  store.users.push({id:store.nextUserId(),name:clean(req.body.name),email,phone:clean(req.body.phone),password:passwords.hash(String(req.body.password)),active:true,createdAt:new Date().toISOString()});
   res.redirect('/qcasa/admin/usuarios');
 };
 exports.adminUserEditForm=(req,res)=>{
@@ -515,7 +525,7 @@ exports.adminUserUpdate=(req,res)=>{
   const user=store.findUserById(req.params.id);if(!user)return res.status(404).send('Usuario no encontrado.');
   const email=cleanEmail(req.body.email),duplicate=store.users.find(u=>u.id!==user.id&&u.email.toLowerCase()===email);
   if(duplicate||email===store.admin.email.toLowerCase())return res.status(409).send('Email ya utilizado.');
-  user.name=clean(req.body.name);user.email=email;user.phone=clean(req.body.phone);if(req.body.password)user.password=String(req.body.password);user.updatedAt=new Date().toISOString();
+  user.name=clean(req.body.name);user.email=email;user.phone=clean(req.body.phone);if(req.body.password)user.password=passwords.hash(String(req.body.password));user.updatedAt=new Date().toISOString();
   store.userProperties(user.id).forEach(p=>{p.ownerName=user.name;p.ownerEmail=user.email;p.ownerPhone=user.phone;});
   res.redirect('/qcasa/admin/usuarios');
 };
